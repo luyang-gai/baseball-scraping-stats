@@ -1,0 +1,12 @@
+{
+  "name": "baseballScraping",
+  "version": "0.0.0",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "jsonfile": "^2.3.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
