@@ -1,0 +1,23 @@
+<div class="search-bar">
+  <table class="table">
+    <thead class="match-info-thead">
+      <tr>
+        <th ng-click="order('Name')">Name</th>
+        <th ng-click="order('xFIP')">xFIP</th>
+        <th ng-click="order('K9')">K/9</th>
+        <th ng-click="order('BB9')">BB/9</th>
+        <th ng-click="order('nextStart')">Next Start</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="player in playersArray | orderBy:orderProp:reverse ">
+        <td ng-click="goToFangraphs(player.Name)">{{player.Name}} <a class="player-dl" ng-show="player.DL"> DL</a></td>
+        <td>{{player.xFIP}}</td>
+        <td>{{player.K9}}</td>
+        <td>{{player.BB9}}</td>
+        <td>{{player.nextStart}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div ui-view></div>
