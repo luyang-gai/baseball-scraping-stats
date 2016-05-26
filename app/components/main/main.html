@@ -1,8 +1,16 @@
-<div class="search-bar">
+<div class="main-page">
+  <div class="search-bar">
+    Search: <input ng-model="query">
+  </div>
   <table class="table">
     <thead class="match-info-thead">
       <tr>
         <th ng-click="order('Name')">Name</th>
+        <th ng-click="order('G')">G</th>
+        <th ng-click="order('GS')">GS</th>
+        <th ng-click="order('IP')">IP</th>
+        <th ng-click="order('BABIP')">BABIP</th>
+        <th ng-click="order('ERA')">ERA</th>
         <th ng-click="order('xFIP')">xFIP</th>
         <th ng-click="order('K9')">K/9</th>
         <th ng-click="order('BB9')">BB/9</th>
@@ -10,8 +18,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="player in playersArray | orderBy:orderProp:reverse ">
-        <td ng-click="goToFangraphs(player.Name)">{{player.Name}} <a class="player-dl" ng-show="player.DL"> DL</a></td>
+      <tr ng-repeat="player in playersArray | filter: {$: query} | orderBy:orderProp:reverse ">
+        <td class="player-name">
+          <a ng-click="openPlayerModal(player)">{{player.Name}}</a>
+          <a class="player-dl" ng-show="player.DL"> DL</a>
+          <img class="fangraphs-icon" ng-click="goToFangraphs(player.Name)" ng-src="http://www.google.com/s2/favicons?domain=http://www.fangraphs.com">
+        </td>
+        <td>{{player.G}}</td>
+        <td>{{player.GS}}</td>
+        <td>{{player.IP}}</td>
+        <td>{{player.BABIP}}</td>
+        <td>{{player.ERA}}</td>
         <td>{{player.xFIP}}</td>
         <td>{{player.K9}}</td>
         <td>{{player.BB9}}</td>

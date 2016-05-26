@@ -1,8 +1,8 @@
-var routerApp = angular.module('BaseballStats', ['ui.router']);
+var routerApp = angular.module('BaseballStats', ['ui.router', 'ui.bootstrap']);
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise('/home');
+  //$urlRouterProvider.otherwise('/home');
 
   $stateProvider
     .state('main', {

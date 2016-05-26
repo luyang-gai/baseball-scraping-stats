@@ -4,10 +4,14 @@ angular.module('BaseballStats')
 		'$scope',
 		'$http',
 		'$window',
-		function($scope, $http, $window) {
+		'$uibModal',
+		function($scope, $http, $window, $modal) {
 			$scope.orderProp = 'xFIP';
 			$scope.playersArray = [];
 			$scope.freeAgents = [];
+
+			var espnData = '../../lib/espn/data.json';
+			var fangraphsData = '../../lib/data.json';
 
 			$scope.$watch("orderProp", function change(oldValue, newValue) {
 				console.log('orderProp changed from: ' + oldValue + ' to ' + newValue);
@@ -20,22 +24,35 @@ angular.module('BaseballStats')
 
 			$scope.goToFangraphs = function(playerName) {
 				$window.location.href = 'http://fangraphs.com/players.aspx?lastname=' + playerName;
-			}
+			};
+
+			$scope.openPlayerModal = function(player) {
+				var modalInstance = $modal.open({
+					templateUrl: 'app/components/player-modal/player-modal.html',
+					controller: 'PlayerModalCtrl',
+					backdrop: true,
+					keyboard: false,
+					size: 'lg',
+					resolve: {
+						player: function () {
+							return player;
+						}
+					}
+				});
+
+				modalInstance.result.then(function(item) {
+
+				}, function() {
+
+				});
+			};
 
 			var init = function() {
-				$http.get('../../lib/espn/data.json').then(function (freeAgents) {
-					$http.get('../../lib/data.json').then(function (results) {
+				$http.get(espnData).then(function (freeAgents) {
+					$http.get(fangraphsData).then(function (results) {
 						filterData(freeAgents.data.data, results.data);
 					});
 				})
-			};
-
-			var getESPNData = function() {
-				return $http.get('../../lib/espn/data.json');
-			};
-
-			var getFangraphsData = function() {
-				return $http.get('../../lib/data.json');
 			};
 
 			var filterData = function(freeAgents, allPlayers) {
@@ -44,7 +61,7 @@ angular.module('BaseballStats')
 					if (freeAgentPlayer && freeAgentPlayer.nextStart) {
 						removeSlashForField(allPlayers[player]);
 						allPlayers[player]['DL'] = freeAgentPlayer.dl;
-						allPlayers[player]['nextStart'] = freeAgentPlayer.nextStart;
+						allPlayers[player]['nextStart'] = freeAgentPlayer.nextStart.replace("PP", "");
 						$scope.playersArray.push(allPlayers[player]);
 					}
 				}
