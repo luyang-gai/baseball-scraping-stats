@@ -2,6 +2,8 @@
 
 update stats by going into lib directory and running ./prepareData.sh
 
+npm install
+
 running gulp serve from main directory will start server.
 
 navigate here
